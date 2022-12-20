@@ -81,7 +81,26 @@ module user_project_wrapper #(
 /*--------------------------------------*/
 /* User project is instantiated  here   */
 /*--------------------------------------*/
+  
 
+    
+matrix_multiply mprj(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+	.sel_in(io_in[27:25]),
+	.input_val(io_in[35:28]),
+	.sel_out(io_in[37:36]),
+	.clk(io_in[24]),
+	.reset(io_in[23]),
+	.execute(io_in[22]),
+	
+	.result(io_out[21:5]),
+	.io_oeb(io_oeb[21:5])
+);
+
+/*
 user_proj_example mprj (
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
@@ -115,8 +134,8 @@ user_proj_example mprj (
     .io_oeb(io_oeb),
 
     // IRQ
-    .irq(user_irq)
-);
+    //.irq(user_irq)
+);*/
 
 endmodule	// user_project_wrapper
 
