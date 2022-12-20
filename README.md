@@ -4,6 +4,9 @@
 
 | :exclamation: Important Note            |
 |-----------------------------------------|
+This project is the implementation of the 2x2 matrix multiplication.
+
+2x2 Matrix multiplication of inputs of 8 bits each . Used for solving AC network equations in electrical circuits. 
 
 ## Please fill in your project documentation in this README.md file 
 
