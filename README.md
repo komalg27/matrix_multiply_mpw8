@@ -4,12 +4,12 @@
 
 | :exclamation: Important Note            |
 |-----------------------------------------|
-This project is the implementation of the 2x2 matrix multiplication.
-
-2x2 Matrix multiplication of inputs of 8 bits each . Used for solving AC network equations in electrical circuits. 
 
 ## Please fill in your project documentation in this README.md file 
 
 Refer to [README](docs/source/index.rst#section-quickstart) for a quickstart of how to use caravel_user_project
 
 Refer to [README](docs/source/index.rst) for this sample project documentation. 
+This project is the implementation of the 2x2 matrix multiplication.
+
+2x2 Matrix multiplication of inputs of 8 bits each . Used for solving AC network equations in electrical circuits. 
