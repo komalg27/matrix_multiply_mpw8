@@ -1,3 +1,5 @@
+`default_nettype none
+`timescale 1ns/1ns
 
 module matrix_multiply(
 `ifdef USE_POWER_PINS
@@ -10,8 +12,12 @@ module matrix_multiply(
     input [2:0]sel_in,
     input [7:0]input_val,
     input [1:0]sel_out,
-    output [16:0]result
+    
+    output [16:0]result,
+    output [16:0] io_oeb
     );
+    assign io_oeb=17'b0;
+    
     reg [7:0]A[0:1][0:1];
     reg [7:0]B[0:1][0:1];
     reg [16:0]C[0:1][0:1];
