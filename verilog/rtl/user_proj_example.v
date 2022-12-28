@@ -39,8 +39,8 @@ module user_proj_example #(
     parameter BITS = 32
 ) (
 `ifdef USE_POWER_PINS
-    inout vccd1,	// User area 5.0V supply
-    inout vssd1,	// User area gnd
+    inout vccd1,	// User area 1 1.8V supply
+    inout vssd1,	// User area 1 digital ground
 `endif
 
     // Wishbone Slave ports (WB MI A)
@@ -65,76 +65,49 @@ module user_proj_example #(
     output [`MPRJ_IO_PADS-1:0] io_out,
     output [`MPRJ_IO_PADS-1:0] io_oeb,
 
-    // Independent clock (on independent integer divider)
-    input user_clock2,
-
-    // User maskable interrupt signals
-    output [2:0] user_irq
 
 );
 
-    
-    wire clk;
-    //wire rst;
-
+   
     wire [`MPRJ_IO_PADS-1:0] io_in;
     wire [`MPRJ_IO_PADS-1:0] io_out;
     wire [`MPRJ_IO_PADS-1:0] io_oeb;
     
-    assign io_in[24] = clk;
-
-    //wire [31:0] rdata; 
-    //wire [31:0] wdata;
-    //wire [BITS-1:0] count;
-
-    //wire valid;
-    //wire [3:0] wstrb;
-    //wire [31:0] la_write;
-    
-    
-    wire reset,execute, clk;
+    wire rst,execute,clk;
     wire [2:0]sel_in;
     wire[7:0]input_val;
     wire [1:0]sel_out;
     wire [16:0]result;
 
+
+    //outputs
     assign io_out[21:5] = result ;
-    assign io_oeb[21:0] = 22'b0; 		//io_oenb is a data output enable bar, output (io_out) is enabled when it is 0 and 
+    assign io_oeb = 0;
     
-    
+    //inputs
     assign io_in[35:28] = input_val;
     assign io_in[27:25] = sel_in;
     assign io_in[37:36] = sel_out;
     assign io_in[22] = execute;
-    assign io_in[23] = reset;
-    assign io_in[24] = clk;
+    assign clk = wb_clk_i;
+    assign rst = wb_rst_i;
     
-    assign io_oeb[37:22] = 16'b1111_111111_111111;		//io_oenb is a data output enable bar, input (io_in) when it is 1.
-    
-    
+   
 
-matrix_multiply k(
-`ifdef USE_POWER_PINS
-	.vccd1(vccd1),	// User area 1 1.8V power
-	.vssd1(vssd1),	// User area 1 digital ground
-`endif
+matrix_multiply mprj(
 	.sel_in(sel_in),
 	.input_val(input_val),
 	.result(result),
 	.sel_out(sel_out),
 	.clk(clk),
-	.reset(reset),
+	.reset(rst),
 	.execute(execute),
 );
 
 endmodule
 
+
 module matrix_multiply(
-`ifdef USE_POWER_PINS
-	inout vccd1,	// User area 1 1.8V power
-	inout vssd1,	// User area 1 digital ground
-	
-`endif
 
     input reset,execute, clk,
     input [2:0]sel_in,
