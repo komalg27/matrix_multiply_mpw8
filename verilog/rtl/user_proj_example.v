@@ -56,14 +56,17 @@ module user_proj_example #(
     output [31:0] wbs_dat_o,
 
     // Logic Analyzer Signals
-    input  [63:0] la_data_in,
-    output [63:0] la_data_out,
-    input  [63:0] la_oenb,
+    input  [127:0] la_data_in,
+    output [127:0] la_data_out,
+    input  [127:0] la_oenb,
 
     // IOs
     input  [`MPRJ_IO_PADS-1:0] io_in,
     output [`MPRJ_IO_PADS-1:0] io_out,
     output [`MPRJ_IO_PADS-1:0] io_oeb,
+    
+    //IRQ
+    output [2:0]irq
 
 
 );
@@ -84,14 +87,18 @@ module user_proj_example #(
     assign io_out[21:5] = result ;
     assign io_oeb = 0;
     
+    //IRQ
+    assign irq=3'b000;
+   
     //inputs
-    assign io_in[35:28] = input_val;
-    assign io_in[27:25] = sel_in;
-    assign io_in[37:36] = sel_out;
-    assign io_in[22] = execute;
+    assign input_val = io_in[35:28] ;
+    assign sel_in = io_in[27:25];
+    assign sel_out = io_in[37:36];
+    assign execute = io_in[22];
     assign clk = wb_clk_i;
     assign rst = wb_rst_i;
     
+   
    
 
 matrix_multiply mprj(
