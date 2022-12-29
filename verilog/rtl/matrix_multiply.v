@@ -1,23 +1,17 @@
-`default_nettype none
-`timescale 1ns/1ns
+`timescale 1ns / 1ps
 
 module matrix_multiply(
 `ifdef USE_POWER_PINS
-	inout vccd1,	// User area 1 1.8V power
-	inout vssd1,	// User area 1 digital ground
-	
+    inout vccd1,	// User area 1 1.8V supply
+    inout vssd1,	// User area 1 digital ground
 `endif
 
     input reset,execute, clk,
     input [2:0]sel_in,
     input [7:0]input_val,
     input [1:0]sel_out,
-    
-    output [16:0]result,
-    output [16:0] io_oeb
+    output [16:0]out
     );
-    assign io_oeb=17'b0;
-    
     reg [7:0]A[0:1][0:1];
     reg [7:0]B[0:1][0:1];
     reg [16:0]C[0:1][0:1];
@@ -55,16 +49,16 @@ module matrix_multiply(
                
         end
         
-    reg [16:0] result1; 
+    reg [16:0] out1; 
     always @(*)
     begin case(sel_out)
-       2'b00:   result1 <=C[0][0];
-       2'b01:   result1 <=C[0][1];
-       2'b10:   result1 <=C[1][0];
-       2'b11:   result1 <=C[1][1];
+       2'b00:   out1 <=C[0][0];
+       2'b01:   out1 <=C[0][1];
+       2'b10:   out1 <=C[1][0];
+       2'b11:   out1 <=C[1][1];
        endcase
     end     
-    assign result = {17{execute}}&result1;
+    assign out = {17{execute}}&out1;
 
 endmodule
 
@@ -84,3 +78,4 @@ module decoder_3x8(
     assign D[7] = S[2] && S[1] && S[0] && en;
     
 endmodule
+`default_nettype wire
