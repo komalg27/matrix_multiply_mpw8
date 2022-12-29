@@ -1,1 +1,1 @@
-matrix multiply
+Matrix multiplication is probably the most important matrix operation. It is used widely in such areas as network theory, solution of linear systems of equations, transformation of co-ordinate systems, and population modeling, to name but a very few.
